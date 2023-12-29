@@ -1,0 +1,29 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  color: b;
+  padding: 2rem;
+  text-align: center;
+}
+
+td {
+  width: 30px;
+  height: 30px;
+  border: 2px black solid;
+}
+
+.parent {
+  display: flex;
+  justify-content: center;
+}
+
+.paletteColorDiv {
+  margin-right: 10px;
+  border: rgb(51, 51, 51) solid 2px;
+  width: 30px;
+  height: 30px;
+}
+
+.buttonDiv {
+  flex-direction: column;
+}
