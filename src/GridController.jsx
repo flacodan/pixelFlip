@@ -27,6 +27,13 @@ export default function GridController() {
         }
     }
 
+    const setPixelGrid = (db) => {
+        for (let i = 0; i < db.length; i++) {
+            const pixel = document.getElementById(i);
+            pixel.style.backgroundColor = db[i];
+        }
+    }
+
     const saveGridToArray = () => {
         // create a temp array to hold values
         // get an object containing the table
