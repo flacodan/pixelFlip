@@ -7,13 +7,14 @@ import ColorPalette from "./ColorPalette";
 export default function GridController() {
 
     const [selectedColor, setSelectedColor] = useState('transparent');
+    const [pixelGrid, setPixelGrid] = useState([]);
 
-    // useEffect(() => {
-    //     axios.get('/jobs')
-    //     .then((response) => {
-    //         setTableData(response.data)
-    //     })
-    // }, [])
+    useEffect(() => {
+        axios.get('/loadGridPage')
+        .then((response) => {
+            setPixelGrid(response.data)
+        })
+    }, []);
 
     const handleColorClick = (color) => { 
         console.log('Clicked a new palette color: ' + color);

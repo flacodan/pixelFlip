@@ -18,9 +18,9 @@ const db = [
 ];
 
 
-// app.get('/jobs', (req, res) => {
-//     res.status(200).send(db)
-// })
+app.get('/loadGridPage', (req, res) => {
+    res.status(200).send(db)
+})
 
 // app.post('/job', (req, res) => {
 //     let newJob = req.body
