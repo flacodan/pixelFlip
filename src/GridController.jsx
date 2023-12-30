@@ -40,20 +40,8 @@ export default function GridController() {
     }
 
 
-    const saveGridToArray = () => {
-        // create a temp array to hold values
-        let tempArray = [];
-        // get an object containing the table
-        // set a pixelIndex counter to 0
-        // loop through rows
-        //     loop through td in each row
-        //         if tc.color != null
-        //              set temp array[pixelIndex] to the color value of the td
-        //         else
-        //                set temp array[pixelIndex] to null  // necessary? will it get set to null if no bgcolor attribute exists?
-        //         increment pixelIndex
-        // Verify that temp array.length = 64
-        // return temp array to server.js POST
+    const saveGridToArray = async (tempArray) => {
+        await axios.post('/saveGrid', tempArray);
     }
 
     const deleteArray = () => {
@@ -71,7 +59,7 @@ export default function GridController() {
                     <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
                 </div>
                 <div>
-                    <GridButtons db={db} onSave={saveGridToArray} />
+                    <GridButtons db={pixelGrid} onSave={saveGridToArray} />
                 </div>
             </div>
                 <div id="footerDiv">
