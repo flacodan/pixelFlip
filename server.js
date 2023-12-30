@@ -49,7 +49,8 @@ app.post('/updateGrid', (req, res) => {
 app.delete('/deleteGrid/:idx', (req, res) => {
     const deleteIndex = req.params.idx;
     db.splice(deleteIndex, 1);
-    res.status(200).send(db);
+    db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank until multi-table feature ready
+    res.status(200).send(db[0]);
 })
 
 // // app.listen(3000, () => {console.log('listening on 3000')})

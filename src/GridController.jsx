@@ -53,8 +53,10 @@ export default function GridController() {
     const deleteGrid = async (indexToDelete) => {
         // I can see a need for both 'Clear grid' and 'Delete grid' - since proj requires 'delete' I'll do that for now
         // TODO: Implement 'clear grid'
-        await axios.delete('/deleteGrid/$indexToDelete');
-        //
+        let response = await axios.delete('/deleteGrid/$indexToDelete');
+        //Now either load the next or previous grid page, or if there are no more pages, create an empty page
+        loadGridPage(response.data);
+        console.log("Response is: " + response.data);
     }
 
     return (
