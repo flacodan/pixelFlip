@@ -3,14 +3,14 @@ import './App.css'
 import GridController from './GridController'
 
 const db = [
-  '#ff0000','#0000ff','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ffff00','#ff0000','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ff0000','#0000ff','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ffff00','#ff0000','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ff0000','#0000ff','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ffff00','#ff0000','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ff0000','#0000ff','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
-  '#ffff00','#ff0000','#ffff00','#ffff00','#0000ff','#ffff00','#ffff00','#ffff00',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+  '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'
 ]
 
 //black  '#000000'

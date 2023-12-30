@@ -18,7 +18,8 @@ td {
 }
 
 .paletteColorDiv {
-  margin-right: 10px;
+  margin: 10px;
+  margin-left: 10px;
   border: rgb(51, 51, 51) solid 2px;
   width: 30px;
   height: 30px;
@@ -26,4 +27,8 @@ td {
 
 .buttonDiv {
   flex-direction: column;
+}
+
+.footer {
+  flex-flow: row nowrap;
 }

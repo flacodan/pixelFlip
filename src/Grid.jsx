@@ -4,6 +4,7 @@ export default function Grid( { selectedColor: selectedColor, onPixelClick } ) {
 
     // let [gridEdited, setGridEdited] = useState([]);
     // let [selectedPixel, setSelectedPixel] = useState(null);
+    let currentPage
 
     const handlePixelClick = (event) => {
         const { target } = event;
@@ -11,7 +12,7 @@ export default function Grid( { selectedColor: selectedColor, onPixelClick } ) {
             onPixelClick(target, selectedColor);
         }
     }
-    
+
     return (
         <>
             <table onClick={handlePixelClick}>

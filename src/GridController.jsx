@@ -7,7 +7,7 @@ import ColorPalette from "./ColorPalette";
 export default function GridController() {
 
     const [selectedColor, setSelectedColor] = useState('transparent');
-    const [pixelGrid, setPixelGrid] = useState([]);
+    const [pixelGrid, setPixelGrid] = useState([]); // pixelGrid is an array of colors, length 64
 
     useEffect(() => {
         axios.get('/loadGridPage')
@@ -18,7 +18,9 @@ export default function GridController() {
 
     const handleColorClick = (color) => { 
         console.log('Clicked a new palette color: ' + color);
-        setSelectedColor(color); };
+        setSelectedColor(color); 
+        document.getElementById('paletteDiv').style.backgroundColor = color;
+    };
 
     const handlePixelClick = (pixel) => {
         if(pixel && selectedColor) {
@@ -26,13 +28,15 @@ export default function GridController() {
             pixel.style.backgroundColor = selectedColor;
         }
     }
-
-    const setPixelGrid = (db) => {
+    
+    const loadGridPage = (db) => {
         for (let i = 0; i < db.length; i++) {
             const pixel = document.getElementById(i);
             pixel.style.backgroundColor = db[i];
         }
+        setPixelGrid()
     }
+
 
     const saveGridToArray = () => {
         // create a temp array to hold values
@@ -57,16 +61,19 @@ export default function GridController() {
     return (
         <>
             <div className="parent">
-                    <div>
-                        <ColorPalette onColorClick={handleColorClick}/>
-                    </div>
-                    <div>
-                        <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
-                    </div>
-                    <div>
-                        <GridButtons/>
-                    </div>
+                <div id = "paletteDiv">
+                    <ColorPalette onColorClick={handleColorClick}/>
+                </div>
+                <div>
+                    <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
+                </div>
+                <div>
+                    <GridButtons/>
+                </div>
             </div>
+                <div id="footerDiv">
+                    <span>... pixelGridPage thumbnails appear here ...</span>
+                </div>
         </>
     )
 }
