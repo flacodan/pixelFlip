@@ -1,8 +1,23 @@
-export default function GridButtons () {
+export default function GridButtons ({ pixelGrid, onSave, onClear }) {
+
+    const emptyGrid = [
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+            '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'
+    ];
 
     const handleSave = () => {
-        //what needs to happen here?
-        //onSave(db);
+        console.log("In GridButtons, grid to save is: " + pixelGrid);
+        onSave(pixelGrid);
+    }
+
+    const handleClear = () => {
+        onClear(0);
     }
 
     return (
@@ -12,7 +27,7 @@ export default function GridButtons () {
                 <div><button>&lt;&lt; PAGE</button></div>
                 <div><button>PAGE &gt;&gt;</button></div>
                 <div><button>COPY PREV</button></div>
-                <div><button style={{color: 'red'}}>CLEAR PAGE</button></div>
+                <div><button onClick={handleClear} style={{color: 'red'}}>CLEAR PAGE</button></div>
                 <div><button>FLIP!</button></div>
             </div>
         </>

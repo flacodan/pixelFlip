@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-const db = [
+let db = [
     [
         '#000000','#fff000','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
@@ -33,41 +33,24 @@ app.get('/loadGridPage', (req, res) => {
     res.status(200).send(db);
 })
 
-app.post('/saveGrid', (req, res) => {
+app.put('/saveGrid', (req, res) => {
+    // If the user is on a 'new' page (just loaded app or clicked 'next' to non-existing page) 'put' to the api
     let gridToSave = req.body;
-    console.log("Grid is: " + gridToSave);
-    db = gridToSave;
+    console.log("server.js saveGrid grid is: " + gridToSave);
+    db[0] = [...gridToSave];
     res.status(200).send(db);
 })
 
-// app.put('/edit-job/:id', (req, res) => {
-//     let id = +req.params.id
-//     let editedJob = req.body
-//     editedJob.rate = +editedJob.rate
-//     editedJob.hours = +editedJob.hours
+app.post('/updateGrid', (req, res) => {
+    // If the user is on an existing grid page, we 'post' an update to the api with the changed grid
+    //res.status(200).send(db);
+})
 
-//     for (let i = 0; i < db.length; i++) {
-//         if (db[i].id === id) {
-//             db.splice(i, 1, editedJob)
-//             break
-//         }
-//     }
-
-//     res.status(200).send(db)
-// })
-
-// app.delete('/job/:id', (req, res) => {
-//     let id = +req.params.id
-
-//     for (let i = 0; i < db.length; i++) {
-//         if (db[i].id === id) {
-//             db.splice(i, 1)
-//             break
-//         }
-//     }
-
-//     res.status(200).send(db)
-// })
+app.delete('/deleteGrid/:idx', (req, res) => {
+    const deleteIndex = req.params.idx;
+    db.splice(deleteIndex, 1);
+    res.status(200).send(db);
+})
 
 // // app.listen(3000, () => {console.log('listening on 3000')})
 ViteExpress.listen(app, 3000, () => {console.log('listening on 3000')});

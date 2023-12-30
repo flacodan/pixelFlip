@@ -24,8 +24,11 @@ export default function GridController() {
 
     const handlePixelClick = (pixel) => {
         if(pixel && selectedColor) {
-            console.log('Clicked on pixel: ' + pixel.id);
+            let tempArray = [...pixelGrid];
+            console.log("Current pixelGrid: " + tempArray);
             pixel.style.backgroundColor = selectedColor;
+            tempArray.splice(+pixel.id, 1, selectedColor);
+            setPixelGrid(tempArray);
         }
     }
     
@@ -36,17 +39,22 @@ export default function GridController() {
             pixel.style.backgroundColor = db[0][i];
             tempArray.push(db[i]);
         }
-        setPixelGrid(tempArray);
+        console.log("In loadGridPage : " + tempArray[0]);
+        setPixelGrid(tempArray[0]);
     }
 
 
-    const saveGridToArray = async (tempArray) => {
-        await axios.post('/saveGrid', tempArray);
+    const saveGridToDb = async (pixelGrid) => {
+        console.log("GridController. Sending this array: " + pixelGrid);
+        console.log(pixelGrid.length);
+        await axios.put('/saveGrid', pixelGrid);
     }
 
-    const deleteArray = () => {
-        // Delete
-        // Figure out how to indicate which array should be deleted
+    const deleteGrid = async (indexToDelete) => {
+        // I can see a need for both 'Clear grid' and 'Delete grid' - since proj requires 'delete' I'll do that for now
+        // TODO: Implement 'clear grid'
+        await axios.delete('/deleteGrid/$indexToDelete');
+        //
     }
 
     return (
@@ -59,7 +67,7 @@ export default function GridController() {
                     <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
                 </div>
                 <div>
-                    <GridButtons db={pixelGrid} onSave={saveGridToArray} />
+                    <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onClear={deleteGrid} />
                 </div>
             </div>
                 <div id="footerDiv">
