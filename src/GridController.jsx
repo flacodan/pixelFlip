@@ -12,7 +12,7 @@ export default function GridController() {
     useEffect(() => {
         axios.get('/loadGridPage')
         .then((response) => {
-            setPixelGrid(response.data)
+            loadGridPage(response.data);
         })
     }, []);
 
@@ -30,16 +30,19 @@ export default function GridController() {
     }
     
     const loadGridPage = (db) => {
-        for (let i = 0; i < db.length; i++) {
+        let tempArray = [];
+        for (let i = 0; i < db[0].length; i++) {
             const pixel = document.getElementById(i);
-            pixel.style.backgroundColor = db[i];
+            pixel.style.backgroundColor = db[0][i];
+            tempArray.push(db[i]);
         }
-        setPixelGrid()
+        setPixelGrid(tempArray);
     }
 
 
     const saveGridToArray = () => {
         // create a temp array to hold values
+        let tempArray = [];
         // get an object containing the table
         // set a pixelIndex counter to 0
         // loop through rows
@@ -68,7 +71,7 @@ export default function GridController() {
                     <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
                 </div>
                 <div>
-                    <GridButtons/>
+                    <GridButtons db={db} onSave={saveGridToArray} />
                 </div>
             </div>
                 <div id="footerDiv">

@@ -1,37 +1,34 @@
-import { Express } from "express";
+import express from 'express';
+import ViteExpress from 'vite-express';
 
-const app = Express();
+const app = express();
 
-app.use(Express.json())
+app.use(express.json());
 
 const db = [
     [
+        '#000000','#fff000','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
-        '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
-        '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'
+        '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#fff000'
     ],
 ];
 
 
 app.get('/loadGridPage', (req, res) => {
-    res.status(200).send(db)
+    res.status(200).send(db);
 })
 
-// app.post('/job', (req, res) => {
-//     let newJob = req.body
-
-//     newJob.id = newGlobalId
-//     newGlobalId++
-
-//     db.push(newJob)
-
-//     res.status(200).send(db)
-// })
+app.post('/saveGrid', (req, res) => {
+    let gridToSave = req.body;
+    console.log("Grid is: " + gridToSave);
+    db = gridToSave;
+    res.status(200).send(db);
+})
 
 // app.put('/edit-job/:id', (req, res) => {
 //     let id = +req.params.id
@@ -63,4 +60,4 @@ app.get('/loadGridPage', (req, res) => {
 // })
 
 // // app.listen(3000, () => {console.log('listening on 3000')})
-ViteExpress.listen(app, 3000, () => {console.log('listening on 3000')})
+ViteExpress.listen(app, 3000, () => {console.log('listening on 3000')});
