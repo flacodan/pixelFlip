@@ -13,6 +13,7 @@ export default function Grid( { selectedColor: selectedColor, onPixelClick } ) {
         }
     }
 
+    // TODO: dynamically genereate tr/td sets based on grid size - but low priority for now
     return (
         <>
             <table onClick={handlePixelClick}>

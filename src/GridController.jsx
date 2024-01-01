@@ -7,7 +7,7 @@ import ColorPalette from "./ColorPalette";
 export default function GridController() {
 
     const [selectedColor, setSelectedColor] = useState('transparent');
-    const [pixelGrid, setPixelGrid] = useState([]); // pixelGrid is an array of colors, length 64
+    const [pixelGrid, setPixelGrid] = useState([]); // pixelGrid is an array of colors, length 64 ( for 8 x 8 table )
 
     useEffect(() => {
         axios.get('/loadGridPage')
@@ -25,7 +25,6 @@ export default function GridController() {
     const handlePixelClick = (pixel) => {
         if(pixel && selectedColor) {
             let tempArray = [...pixelGrid];
-            console.log("Current pixelGrid: " + tempArray);
             pixel.style.backgroundColor = selectedColor;
             tempArray.splice(+pixel.id, 1, selectedColor);
             setPixelGrid(tempArray);
@@ -56,7 +55,6 @@ export default function GridController() {
         let response = await axios.delete('/deleteGrid/$indexToDelete');
         //Now either load the next or previous grid page, or if there are no more pages, create an empty page
         loadGridPage(response.data);
-        console.log("Response is: " + response.data);
     }
 
     return (
@@ -69,7 +67,7 @@ export default function GridController() {
                     <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
                 </div>
                 <div>
-                    <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onClear={deleteGrid} />
+                    <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onDelete={deleteGrid} />
                 </div>
             </div>
                 <div id="footerDiv">

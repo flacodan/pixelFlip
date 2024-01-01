@@ -36,7 +36,6 @@ app.get('/loadGridPage', (req, res) => {
 app.put('/saveGrid', (req, res) => {
     // If the user is on a 'new' page (just loaded app or clicked 'next' to non-existing page) 'put' to the api
     let gridToSave = req.body;
-    console.log("server.js saveGrid grid is: " + gridToSave);
     db[0] = [...gridToSave];
     res.status(200).send(db);
 })
