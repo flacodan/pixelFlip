@@ -57,6 +57,19 @@ export default function GridController() {
         return response;
     }
 
+    const prevPage = async () => {
+        // Trigger Save on current page first
+        let getDbResponse = await axios.get('/getAllPages'); // Get full db because we need length and also to display the next page
+        let currDb = getDbResponse.data;
+        const dbLength = currDb.length;
+        if(currentPage === 0) { // if a current page is first page, remain on page
+            alert("Already on the first page.");
+        } else {
+            currentPage -= 1;
+        }
+        setPixelGrid(currDb[currentPage]);
+    }
+
     const nextPage = async () => {
         // Trigger Save on current page first
         let getDbResponse = await axios.get('/getAllPages'); // Get full db because we need length and also to display the next page
@@ -106,6 +119,7 @@ export default function GridController() {
                     <GridButtons 
                     pixelGrid={pixelGrid} 
                     onSave={saveGridToDb} 
+                    onPrevious={prevPage} 
                     onNext={nextPage}
                     onDelete={deleteGrid} 
                     onClear={clearGridPage} 
