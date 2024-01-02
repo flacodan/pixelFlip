@@ -16,6 +16,16 @@ let db = [
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'
     ],
+    [
+        'blue','#fff000','blue','blue','blue','yellow','yellow','blue',
+        'blue','green','blue','blue','blue','yellow','yellow','blue',
+        'green','green','green','blue','blue','blue','blue','blue',
+        'red','green','green','blue','blue','blue','blue','blue',
+        'green','green','green','green','blue','blue','blue','blue',
+        'green','green','red','green','blue','blue','blue','blue',
+        'green','green','green','green','green','blue','blue','blue',
+        'blue','orange','blue','blue','blue','blue','blue','blue'
+    ],
 ];
 
 const emptyGrid = [
@@ -49,17 +59,21 @@ app.post('/updateGrid', (req, res) => {
 
 app.delete('/deleteGrid/:idx', (req, res) => {
     const deleteIndex = req.params.idx;
-    let loadIdx;
+    let loadIndex;
+    console.log("in server.js db.len is: " + db.length);
+    console.log("and db is :" + db);
     db.splice(deleteIndex, 1);
+    console.log("Db should now be spliced :" + db);
     if(db.length > 0 && deleteIndex != 0) { // if index deleted was not 0, load the previous index/page
-        loadIdx = deleteIndex - 1;
+        loadIndex = deleteIndex - 1;
     } else if (db.length > 0) { // if index 0 was deleted, but other pages exist - load the next page
-        loadIdx = 0;
+        loadIndex = 0;
     } else { // This was the only array - not sure if the length has changed after delete yet?
         db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank until multi-table feature ready 
-        loadIdx = 0;
+        loadIndex = 0;
     }
-    res.status(200).send(db[loadIdx]);
+    // res.status(200).send(db[loadIndex]);
+    res.status(200).send(db); // send the entire db, figure out how to tell the parent which way we sent it :(
 })
 
 // // app.listen(3000, () => {console.log('listening on 3000')})

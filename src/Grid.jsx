@@ -1,6 +1,6 @@
 
 
-export default function Grid( { selectedColor: selectedColor, onPixelClick, currentPage } ) {
+export default function Grid( { pixelGrid, selectedColor: selectedColor, onPixelClick, currentPage } ) {
 
     // let [gridEdited, setGridEdited] = useState([]);
     // let [selectedPixel, setSelectedPixel] = useState(null);
@@ -13,13 +13,40 @@ export default function Grid( { selectedColor: selectedColor, onPixelClick, curr
         }
     }
 
-    // TODO: dynamically genereate tr/td sets based on grid size - but low priority for now
+    const loadPixelColors = () => {
+        const pixelTDs = [];
+        // map pixels one by one onto <td> elements, they'll be assigned to rows later
+        for (let i = 0; i < 64; i++) {
+            pixelTDs.push(<td key={i} id={i} style={{ backgroundColor: pixelGrid[i] }} ></td>);
+        }
+        return pixelTDs;
+    }
+
+    const loadRowsWithPixels = () => {
+        const rows = [];
+        let pixelList = loadPixelColors();
+        for (let i = 0; i < 8; i++) {
+            rows.push(<tr key={i} >{pixelList.slice(i * 8, (i + 1) * 8)}</tr>); // (0, 8) -> (8, 16) etc - slices  pixelList by 8s and puts them in a row
+        }
+        return rows;
+    }
+
     return (
         <>
             <table onClick={handlePixelClick}>
                 <tbody>
-                <tr>
-                    {/* <td style={{ backgroundColor: 'blue' }} id='0'></td> */}
+                    {loadRowsWithPixels()}
+                </tbody>
+            </table>
+            <p>PAGE {displayPage}</p>
+        </>
+    )
+}
+
+
+// saving just in case my logic fails :)
+{/* <tr>
+                    
                     <td id='0'></td>
                     <td id='1'></td>
                     <td id='2'></td>
@@ -98,10 +125,6 @@ export default function Grid( { selectedColor: selectedColor, onPixelClick, curr
                     <td id='61'></td>
                     <td id='62'></td>
                     <td id='63'></td>
-                </tr>
-                </tbody>
-            </table>
-            <p>PAGE {displayPage}</p>
-        </>
-    )
-}
+                </tr> */}
+
+                {/* <td style={{ backgroundColor: 'blue' }} id='0'></td> */}

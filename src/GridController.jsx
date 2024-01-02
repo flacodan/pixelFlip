@@ -40,12 +40,12 @@ export default function GridController() {
             tempArray.push(db[i]);
         }
         console.log("In loadGridPage, is db an array? " + Array.isArray(db));
-        console.log("db length is: " + db.length);
-        console.log("In loadGridPage sending this to setPixelGrid: " + tempArray[0]);
-        setPixelGrid(tempArray[0]);
+        console.log("In lG db length is: " + db.length);
+        console.log("In lG db is: " + db);
+        console.log("In loadGridPage sending this to setPixelGrid: " + tempArray[currentPage]);
+        setPixelGrid(tempArray[currentPage]);
         // setPixelGrid(tempArray);
     }
-
 
     const saveGridToDb = async (pixelGrid) => {
         let indexToSave = currentPage;
@@ -54,14 +54,16 @@ export default function GridController() {
         await axios.put(`/saveGrid/${indexToSave}`, pixelGrid);
     }
 
-    const deleteGrid = async () => {
-        let indexToDelete = currentPage;
+    const deleteGrid = async (indexToDelete) => {
+        indexToDelete = currentPage;
         let response = await axios.delete(`/deleteGrid/${indexToDelete}`);
         
         console.log("In deleteGrid, is response.data an array? " + Array.isArray(response.data));
         console.log("Array is: " + response.data);
         // loadGridPage(response.data[idx]); // send the db array index idx to loadGridPage to display it
-        loadGridPage(response.data); // send the db array index idx to loadGridPage to display it
+        // loadGridPage(response.data); // send the db array index idx to loadGridPage to display it
+        console.log("Set grid to this using idx " + indexToDelete + " : " + response.data[indexToDelete]);
+        setPixelGrid(response.data[indexToDelete]); // !!!!!!!!!!!!!!! CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     return (
@@ -71,7 +73,7 @@ export default function GridController() {
                     <ColorPalette onColorClick={handleColorClick}/>
                 </div>
                 <div>
-                    <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick} currentPage={currentPage}/>
+                    <Grid pixelGrid={pixelGrid} selectedColor={selectedColor} onPixelClick={handlePixelClick} currentPage={currentPage}/>
                 </div>
                 <div>
                     <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onDelete={deleteGrid} currentPage={currentPage} />
