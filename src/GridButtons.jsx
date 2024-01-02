@@ -1,4 +1,4 @@
-export default function GridButtons ({ pixelGrid, onSave, onDelete }) {
+export default function GridButtons ({ pixelGrid, onSave, onDelete, currentPage }) {
 
     const handleSave = () => {
         // current grid sent to the db[currentPage] on server.js as an array pushed onto the array of existing arrays. PUT
@@ -21,18 +21,15 @@ export default function GridButtons ({ pixelGrid, onSave, onDelete }) {
     }
 
     const handleClear = () => {
-        // Sending the 0th array to be cleared until multiple arrays are implemented
+        // Sending the 'currentPage'-th as array index to be cleared
         // 'Clear' will replace all the color values in the grid with the 'emptyGrid' array
-        //onClear(0); 
+        //onClear(currentPage); 
     }
 
     const handleDelete = () => {
-        // Sending the 0th array to be deleted until multiple arrays are implemented
-        // 'Delete' will remove the currentArray and if index currentArray!=0 will move to index  currentArray-1
-        // If indexCurrArray=0 && db length>1 we move to currentArray+1
-        // Else we must be on the first and only pixelGrid array, so we just replace the current grid with a blank
+        // Sending the 'currentPage'-th as index to be deleted
         // Remember to set currentArray appropriately
-        onDelete(0); 
+        onDelete(currentPage); 
     }
 
     const handleFlip = () => {
@@ -54,18 +51,3 @@ export default function GridButtons ({ pixelGrid, onSave, onDelete }) {
         </>
     )
 }
-
-
-        
-        // create a temp array to hold values
-        // get an object containing the table
-        // set a pixelIndex counter to 0
-        // loop through rows
-        //     loop through td in each row
-        //         if tc.color != null
-        //              set temp array[pixelIndex] to the color value of the td
-        //         else
-        //                set temp array[pixelIndex] to null  // necessary? will it get set to null if no bgcolor attribute exists?
-        //         increment pixelIndex
-        // Verify that temp array.length = 64
-        // return temp array to server.js POST

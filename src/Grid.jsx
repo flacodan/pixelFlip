@@ -1,10 +1,10 @@
 
 
-export default function Grid( { selectedColor: selectedColor, onPixelClick } ) {
+export default function Grid( { selectedColor: selectedColor, onPixelClick, currentPage } ) {
 
     // let [gridEdited, setGridEdited] = useState([]);
     // let [selectedPixel, setSelectedPixel] = useState(null);
-    let currentPage
+    let displayPage = currentPage + 1;
 
     const handlePixelClick = (event) => {
         const { target } = event;
@@ -101,7 +101,7 @@ export default function Grid( { selectedColor: selectedColor, onPixelClick } ) {
                 </tr>
                 </tbody>
             </table>
-            <p>PAGE 1</p>
+            <p>PAGE {displayPage}</p>
         </>
     )
 }

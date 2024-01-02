@@ -30,13 +30,15 @@ const emptyGrid = [
 ];
 
 app.get('/loadGridPage', (req, res) => {
-    res.status(200).send(db);
+    res.status(200).send(db); // Sending the whole db, meaning there will be multiple arrays
 })
 
-app.put('/saveGrid', (req, res) => {
+app.put('/saveGrid/:indexToSave', (req, res) => {
     // If the user is on a 'new' page (just loaded app or clicked 'next' to non-existing page) 'put' to the api
+    const saveIndex = req.params.indexToSave;
+    console.log("In server.js save index is: " + saveIndex);
     let gridToSave = req.body;
-    db[0] = [...gridToSave];
+    db[saveIndex] = [...gridToSave];
     res.status(200).send(db);
 })
 
@@ -47,9 +49,17 @@ app.post('/updateGrid', (req, res) => {
 
 app.delete('/deleteGrid/:idx', (req, res) => {
     const deleteIndex = req.params.idx;
+    let loadIdx;
     db.splice(deleteIndex, 1);
-    db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank until multi-table feature ready
-    res.status(200).send(db[0]);
+    if(db.length > 0 && deleteIndex != 0) { // if index deleted was not 0, load the previous index/page
+        loadIdx = deleteIndex - 1;
+    } else if (db.length > 0) { // if index 0 was deleted, but other pages exist - load the next page
+        loadIdx = 0;
+    } else { // This was the only array - not sure if the length has changed after delete yet?
+        db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank until multi-table feature ready 
+        loadIdx = 0;
+    }
+    res.status(200).send(db[loadIdx]);
 })
 
 // // app.listen(3000, () => {console.log('listening on 3000')})

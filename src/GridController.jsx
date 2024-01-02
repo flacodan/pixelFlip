@@ -8,6 +8,7 @@ export default function GridController() {
 
     const [selectedColor, setSelectedColor] = useState('transparent');
     const [pixelGrid, setPixelGrid] = useState([]); // pixelGrid is an array of colors, length 64 ( for 8 x 8 table )
+    let currentPage = 0;
 
     useEffect(() => {
         axios.get('/loadGridPage')
@@ -33,28 +34,34 @@ export default function GridController() {
     
     const loadGridPage = (db) => {
         let tempArray = [];
-        for (let i = 0; i < db[0].length; i++) {
+        for (let i = 0; i < 64; i++) {
             const pixel = document.getElementById(i);
-            pixel.style.backgroundColor = db[0][i];
+            pixel.style.backgroundColor = db[currentPage][i];
             tempArray.push(db[i]);
         }
-        console.log("In loadGridPage : " + tempArray[0]);
+        console.log("In loadGridPage, is db an array? " + Array.isArray(db));
+        console.log("db length is: " + db.length);
+        console.log("In loadGridPage sending this to setPixelGrid: " + tempArray[0]);
         setPixelGrid(tempArray[0]);
+        // setPixelGrid(tempArray);
     }
 
 
     const saveGridToDb = async (pixelGrid) => {
+        let indexToSave = currentPage;
         console.log("GridController. Sending this array: " + pixelGrid);
         console.log(pixelGrid.length);
-        await axios.put('/saveGrid', pixelGrid);
+        await axios.put(`/saveGrid/${indexToSave}`, pixelGrid);
     }
 
-    const deleteGrid = async (indexToDelete) => {
-        // I can see a need for both 'Clear grid' and 'Delete grid' - since proj requires 'delete' I'll do that for now
-        // TODO: Implement 'clear grid'
-        let response = await axios.delete('/deleteGrid/$indexToDelete');
-        //Now either load the next or previous grid page, or if there are no more pages, create an empty page
-        loadGridPage(response.data);
+    const deleteGrid = async () => {
+        let indexToDelete = currentPage;
+        let response = await axios.delete(`/deleteGrid/${indexToDelete}`);
+        
+        console.log("In deleteGrid, is response.data an array? " + Array.isArray(response.data));
+        console.log("Array is: " + response.data);
+        // loadGridPage(response.data[idx]); // send the db array index idx to loadGridPage to display it
+        loadGridPage(response.data); // send the db array index idx to loadGridPage to display it
     }
 
     return (
@@ -64,10 +71,10 @@ export default function GridController() {
                     <ColorPalette onColorClick={handleColorClick}/>
                 </div>
                 <div>
-                    <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick}/>
+                    <Grid selectedColor={selectedColor} onPixelClick={handlePixelClick} currentPage={currentPage}/>
                 </div>
                 <div>
-                    <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onDelete={deleteGrid} />
+                    <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onDelete={deleteGrid} currentPage={currentPage} />
                 </div>
             </div>
                 <div id="footerDiv">
