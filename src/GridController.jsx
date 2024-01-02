@@ -83,6 +83,16 @@ export default function GridController() {
         setPixelGrid(currDb[currentPage]);
     }
 
+    const copyPrev = async () => {
+        if(confirm('This will replace your current pixel page, continue?')) {
+            // load pixels from prev page
+            let getDbResponse = await axios.get('/getAllPages'); // Get full db to copy the prev page
+            let currDb = getDbResponse.data;
+            let pageToCopy = currentPage - 1;
+            setPixelGrid(currDb[pageToCopy]);
+        }
+    }
+
     const clearGridPage = async (indexToClear) => {
         indexToClear = currentPage;
         let response = await axios.post(`/clearGrid/${indexToClear}`);
@@ -121,6 +131,7 @@ export default function GridController() {
                     onSave={saveGridToDb} 
                     onPrevious={prevPage} 
                     onNext={nextPage}
+                    onCopy={copyPrev}
                     onDelete={deleteGrid} 
                     onClear={clearGridPage} 
                     currentPage={currentPage} />

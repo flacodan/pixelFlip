@@ -1,4 +1,4 @@
-export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, onDelete, onClear, currentPage }) {
+export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, onDelete, onCopy, onClear, currentPage }) {
 
     const handleSave = () => {
         // current grid sent to the db[currentPage] on server.js as an array pushed onto the array of existing arrays. PUT
@@ -21,6 +21,7 @@ export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, on
 
     const handleCopy = () => {
         // (if db[currPg-1] exists) LOADs previous pg w/o changing currentPage# GET 
+        onCopy(currentPage);
     }
 
     const handleClear = () => {
