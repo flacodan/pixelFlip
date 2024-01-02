@@ -54,6 +54,12 @@ export default function GridController() {
         await axios.put(`/saveGrid/${indexToSave}`, pixelGrid);
     }
 
+    const clearGridPage = async (indexToClear) => {
+        indexToClear = currentPage;
+        let response = await axios.post(`/clearGrid/${indexToClear}`);
+        setPixelGrid(response.data[indexToClear]);
+    }
+
     const deleteGrid = async (indexToDelete) => {
         indexToDelete = currentPage;
         let response = await axios.delete(`/deleteGrid/${indexToDelete}`);
@@ -70,13 +76,23 @@ export default function GridController() {
         <>
             <div className="parent">
                 <div id = "paletteDiv">
-                    <ColorPalette onColorClick={handleColorClick}/>
+                    <ColorPalette 
+                    onColorClick={handleColorClick}/>
                 </div>
                 <div>
-                    <Grid pixelGrid={pixelGrid} selectedColor={selectedColor} onPixelClick={handlePixelClick} currentPage={currentPage}/>
+                    <Grid 
+                    pixelGrid={pixelGrid} 
+                    selectedColor={selectedColor} 
+                    onPixelClick={handlePixelClick} 
+                    currentPage={currentPage}/>
                 </div>
                 <div>
-                    <GridButtons pixelGrid={pixelGrid} onSave={saveGridToDb} onDelete={deleteGrid} currentPage={currentPage} />
+                    <GridButtons 
+                    pixelGrid={pixelGrid} 
+                    onSave={saveGridToDb} 
+                    onDelete={deleteGrid} 
+                    onClear={clearGridPage} 
+                    currentPage={currentPage} />
                 </div>
             </div>
                 <div id="footerDiv">

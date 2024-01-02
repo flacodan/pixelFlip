@@ -1,4 +1,4 @@
-export default function GridButtons ({ pixelGrid, onSave, onDelete, currentPage }) {
+export default function GridButtons ({ pixelGrid, onSave, onDelete, onClear, currentPage }) {
 
     const handleSave = () => {
         // current grid sent to the db[currentPage] on server.js as an array pushed onto the array of existing arrays. PUT
@@ -23,7 +23,7 @@ export default function GridButtons ({ pixelGrid, onSave, onDelete, currentPage 
     const handleClear = () => {
         // Sending the 'currentPage'-th as array index to be cleared
         // 'Clear' will replace all the color values in the grid with the 'emptyGrid' array
-        //onClear(currentPage); 
+        onClear(currentPage); 
     }
 
     const handleDelete = () => {

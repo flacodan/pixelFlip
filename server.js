@@ -52,9 +52,11 @@ app.put('/saveGrid/:indexToSave', (req, res) => {
     res.status(200).send(db);
 })
 
-app.post('/updateGrid', (req, res) => {
-    // If the user is on an existing grid page, we 'post' an update to the api with the changed grid
-    //res.status(200).send(db);
+app.post('/clearGrid/:idx', (req, res) => {
+    // If the user clicks to clear an existing grid page, we 'post' an update to the api with the blank grid at that index
+    const clearIndex = req.params.idx;
+    db.splice(clearIndex, 1, emptyGrid);
+    res.status(200).send(db);
 })
 
 app.delete('/deleteGrid/:idx', (req, res) => {
