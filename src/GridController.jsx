@@ -4,14 +4,16 @@ import Grid from "./Grid";
 import GridButtons from "./GridButtons";
 import ColorPalette from "./ColorPalette";
 
+
+let currentPage = 0;
+
 export default function GridController() {
 
     const [selectedColor, setSelectedColor] = useState('transparent');
     const [pixelGrid, setPixelGrid] = useState([]); // pixelGrid is an array of colors, length 64 ( for 8 x 8 table )
-    let currentPage = 0;
 
     useEffect(() => {
-        axios.get('/loadGridPage')
+        axios.get('/getAllPages')
         .then((response) => {
             loadGridPage(response.data);
         })
@@ -51,7 +53,21 @@ export default function GridController() {
         let indexToSave = currentPage;
         console.log("GridController. Sending this array: " + pixelGrid);
         console.log(pixelGrid.length);
-        await axios.put(`/saveGrid/${indexToSave}`, pixelGrid);
+        let response = await axios.put(`/saveGrid/${indexToSave}`, pixelGrid);
+        return response;
+    }
+
+    const nextPage = async () => {
+        // Trigger Save on current page first
+        let getDbResponse = await axios.get('/getAllPages'); // Get full db because we need length and also to display the next page
+        let currDb = getDbResponse.data;
+        const dbLength = currDb.length;
+        if((dbLength - currentPage) === 1) { // if a current page is last page, create a blank page
+            let response = await axios.put(`/addNewPage/${dbLength}`);
+            currDb = response.data;
+        }
+        currentPage += 1;
+        setPixelGrid(currDb[currentPage]);
     }
 
     const clearGridPage = async (indexToClear) => {
@@ -90,6 +106,7 @@ export default function GridController() {
                     <GridButtons 
                     pixelGrid={pixelGrid} 
                     onSave={saveGridToDb} 
+                    onNext={nextPage}
                     onDelete={deleteGrid} 
                     onClear={clearGridPage} 
                     currentPage={currentPage} />

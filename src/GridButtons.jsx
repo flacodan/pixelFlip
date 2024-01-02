@@ -1,4 +1,4 @@
-export default function GridButtons ({ pixelGrid, onSave, onDelete, onClear, currentPage }) {
+export default function GridButtons ({ pixelGrid, onSave, onNext, onDelete, onClear, currentPage }) {
 
     const handleSave = () => {
         // current grid sent to the db[currentPage] on server.js as an array pushed onto the array of existing arrays. PUT
@@ -9,11 +9,14 @@ export default function GridButtons ({ pixelGrid, onSave, onDelete, onClear, cur
     const handlePrevPg = () => {
         // trigger 'Save' and then LOAD db[currentPage - 1] if it exists PUT GET
         // Remember to set currentArray appropriately
+        // onPrevious(currentPage);
     }
 
     const handleNextPg = () => {
         // trigger 'Save' and then LOAD db[currentPage + 1] if it exists PUT GET or if next does not exist PUT POST
         // Remember to set currentArray appropriately
+        //handleSave();
+        onNext(currentPage);
     }
 
     const handleCopy = () => {

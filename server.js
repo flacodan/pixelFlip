@@ -39,8 +39,18 @@ const emptyGrid = [
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'
 ];
 
-app.get('/loadGridPage', (req, res) => {
+app.get('/dbLength', (req, res) => {
+    res.status(200).send(db.length);
+})
+
+app.get('/getAllPages', (req, res) => {
     res.status(200).send(db); // Sending the whole db, meaning there will be multiple arrays
+})
+
+app.put('/addNewPage/:indexToAdd', (req, res) => {
+    const addIndex = req.params.indexToAdd; // Not needed at this point, not doing 'insert blank page' yet - can only add to end
+    db.push(emptyGrid);
+    res.status(200).send(db);
 })
 
 app.put('/saveGrid/:indexToSave', (req, res) => {
