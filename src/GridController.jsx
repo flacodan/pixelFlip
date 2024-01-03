@@ -111,6 +111,25 @@ export default function GridController() {
         setPixelGrid(response.data[indexToDelete]); // !!!!!!!!!!!!!!! CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
+    function delay(milliseconds){
+        return new Promise(resolve => {
+            setTimeout(resolve, milliseconds);
+        });
+    }
+    
+    const flipPages = async () => {
+        // get current db, flip through each index/page
+        console.log("Now flipping pages...");
+        let getDbResponse = await axios.get('/getAllPages');
+        let currDb = getDbResponse.data;
+        const dbLength = currDb.length;
+        for(let i = 0; i < dbLength; i++) {
+            //load each pixel grid page
+            setPixelGrid(currDb[i]);
+            await delay(200);
+        };
+    }
+
     return (
         <>
             <div className="parent">
@@ -131,9 +150,10 @@ export default function GridController() {
                     onSave={saveGridToDb} 
                     onPrevious={prevPage} 
                     onNext={nextPage}
-                    onCopy={copyPrev}
-                    onDelete={deleteGrid} 
+                    onCopy={copyPrev} 
                     onClear={clearGridPage} 
+                    onDelete={deleteGrid} 
+                    onFlip={flipPages}
                     currentPage={currentPage} />
                 </div>
             </div>

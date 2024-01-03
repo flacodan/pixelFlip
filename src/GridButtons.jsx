@@ -1,4 +1,4 @@
-export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, onDelete, onCopy, onClear, currentPage }) {
+export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, onDelete, onCopy, onClear, onFlip, currentPage }) {
 
     const handleSave = () => {
         // current grid sent to the db[currentPage] on server.js as an array pushed onto the array of existing arrays. PUT
@@ -38,6 +38,7 @@ export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, on
 
     const handleFlip = () => {
         // Loads db[0] pause 200ms, LOAD db[1], etc, looping to db.length
+        onFlip();
     }
 
 
