@@ -91,12 +91,11 @@ export default function GridController() {
         setPixelGrid(response.data[indexToClear]);
     }
 
-    //TODO! Can't delete if not saved yet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const deleteGrid = async (indexToDelete) => {
-        // if(currentPage){};
         indexToDelete = currentPage;
-        let response = await axios.delete(`/deleteGrid/${indexToDelete}`);
-        setPixelGrid(response.data[indexToDelete]); // !!!!!!!!!!!!!!! CHANGE THIS !!!!!!!!!!!!!!!!!!
+        // let response = await axios.delete(`/deleteGrid/${indexToDelete}`);
+        const [db, loadIndex] = await axios.delete(`/deleteGrid/${indexToDelete}`);
+        setPixelGrid(db[loadIndex]); // must load prev page if I was on last page
     }
 
     function delay(milliseconds){

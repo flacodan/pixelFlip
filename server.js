@@ -70,17 +70,19 @@ app.post('/clearGrid/:idx', (req, res) => {
 
 app.delete('/deleteGrid/:idx', (req, res) => {
     const deleteIndex = req.params.idx;
-    let loadIndex;
-    db.splice(deleteIndex, 1);
-    if(db.length > 0 && deleteIndex != 0) { // if index deleted was not 0, load the previous index/page
-        loadIndex = deleteIndex - 1;
-    } else if (db.length > 0) { // if index 0 was deleted, but other pages exist - load the next page
-        loadIndex = 0;
-    } else { // This was the only array - not sure if the length has changed after delete yet?
-        db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank until multi-table feature ready 
-        loadIndex = 0;
+    let loadIndex; // which array index to load after this is deleted
+    if(db.length > 0){
+        if(deleteIndex != 0) { // if not deleting idx 0, load the previous index/page
+            loadIndex = deleteIndex - 1;
+        } else if (deleteIndex === 0 && db.length > 1) { // deleting index 0 and other pages exist - load the next page which will now be idx 0
+            loadIndex = 0;
+        } else { // The only array in db was deleted 
+            db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank 
+            loadIndex = 0;
+        };
+        db.splice(deleteIndex, 1);
+        res.status(200).send([db, loadIndex]); // send the entire db, tell the parent which index to load now
     };
-    res.status(200).send(db); // send the entire db, figure out how to tell the parent which way we sent it :(
 })
 
 ViteExpress.listen(app, 3000, () => {console.log('listening on 3000')});

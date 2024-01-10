@@ -24,7 +24,7 @@ export default function Grid( { pixelGrid, selectedColor: selectedColor, onPixel
         const rows = [];
         let pixelList = loadPixelColors();
         for (let i = 0; i < 8; i++) {
-            rows.push(<tr key={i} >{pixelList.slice(i * 8, (i + 1) * 8)}</tr>); // (0, 8) -> (8, 16) etc - slices  pixelList by 8s and puts them in a row
+            rows.push(<tr key={i}>{pixelList.slice(i * 8, (i + 1) * 8)}</tr>); // (0, 8) -> (8, 16) etc - slices  pixelList by 8s and puts them in a row
         }
         return rows;
     }
