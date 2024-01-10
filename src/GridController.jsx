@@ -20,7 +20,6 @@ export default function GridController() {
     }, []);
 
     const handleColorClick = (color) => { 
-        console.log('Clicked a new palette color: ' + color);
         setSelectedColor(color); 
         document.getElementById('paletteDiv').style.backgroundColor = color;
     };
@@ -41,18 +40,11 @@ export default function GridController() {
             pixel.style.backgroundColor = db[currentPage][i];
             tempArray.push(db[i]);
         }
-        console.log("In loadGridPage, is db an array? " + Array.isArray(db));
-        console.log("In lG db length is: " + db.length);
-        console.log("In lG db is: " + db);
-        console.log("In loadGridPage sending this to setPixelGrid: " + tempArray[currentPage]);
         setPixelGrid(tempArray[currentPage]);
-        // setPixelGrid(tempArray);
     }
 
     const saveGridToDb = async (pixelGrid) => {
         let indexToSave = currentPage;
-        console.log("GridController. Sending this array: " + pixelGrid);
-        console.log(pixelGrid.length);
         let response = await axios.put(`/saveGrid/${indexToSave}`, pixelGrid);
         return response;
     }
@@ -99,16 +91,12 @@ export default function GridController() {
         setPixelGrid(response.data[indexToClear]);
     }
 
+    //TODO! Can't delete if not saved yet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const deleteGrid = async (indexToDelete) => {
+        // if(currentPage){};
         indexToDelete = currentPage;
         let response = await axios.delete(`/deleteGrid/${indexToDelete}`);
-        
-        console.log("In deleteGrid, is response.data an array? " + Array.isArray(response.data));
-        console.log("Array is: " + response.data);
-        // loadGridPage(response.data[idx]); // send the db array index idx to loadGridPage to display it
-        // loadGridPage(response.data); // send the db array index idx to loadGridPage to display it
-        console.log("Set grid to this using idx " + indexToDelete + " : " + response.data[indexToDelete]);
-        setPixelGrid(response.data[indexToDelete]); // !!!!!!!!!!!!!!! CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        setPixelGrid(response.data[indexToDelete]); // !!!!!!!!!!!!!!! CHANGE THIS !!!!!!!!!!!!!!!!!!
     }
 
     function delay(milliseconds){
@@ -119,7 +107,6 @@ export default function GridController() {
     
     const flipPages = async () => {
         // get current db, flip through each index/page
-        console.log("Now flipping pages...");
         let getDbResponse = await axios.get('/getAllPages');
         let currDb = getDbResponse.data;
         const dbLength = currDb.length;

@@ -7,7 +7,7 @@ app.use(express.json());
 
 let db = [
     [
-        '#000000','#fff000','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
+        '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
         '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff',
@@ -48,7 +48,7 @@ app.get('/getAllPages', (req, res) => {
 })
 
 app.put('/addNewPage/:indexToAdd', (req, res) => {
-    const addIndex = req.params.indexToAdd; // Not needed at this point, not doing 'insert blank page' yet - can only add to end
+    const addIndex = req.params.indexToAdd; 
     db.push(emptyGrid);
     res.status(200).send(db);
 })
@@ -56,7 +56,6 @@ app.put('/addNewPage/:indexToAdd', (req, res) => {
 app.put('/saveGrid/:indexToSave', (req, res) => {
     // If the user is on a 'new' page (just loaded app or clicked 'next' to non-existing page) 'put' to the api
     const saveIndex = req.params.indexToSave;
-    console.log("In server.js save index is: " + saveIndex);
     let gridToSave = req.body;
     db[saveIndex] = [...gridToSave];
     res.status(200).send(db);
@@ -72,10 +71,7 @@ app.post('/clearGrid/:idx', (req, res) => {
 app.delete('/deleteGrid/:idx', (req, res) => {
     const deleteIndex = req.params.idx;
     let loadIndex;
-    console.log("in server.js db.len is: " + db.length);
-    console.log("and db is :" + db);
     db.splice(deleteIndex, 1);
-    console.log("Db should now be spliced :" + db);
     if(db.length > 0 && deleteIndex != 0) { // if index deleted was not 0, load the previous index/page
         loadIndex = deleteIndex - 1;
     } else if (db.length > 0) { // if index 0 was deleted, but other pages exist - load the next page
@@ -83,10 +79,8 @@ app.delete('/deleteGrid/:idx', (req, res) => {
     } else { // This was the only array - not sure if the length has changed after delete yet?
         db[0] = [...emptyGrid]; //can't handle an empty table, so after delete auto-load with blank until multi-table feature ready 
         loadIndex = 0;
-    }
-    // res.status(200).send(db[loadIndex]);
+    };
     res.status(200).send(db); // send the entire db, figure out how to tell the parent which way we sent it :(
 })
 
-// // app.listen(3000, () => {console.log('listening on 3000')})
 ViteExpress.listen(app, 3000, () => {console.log('listening on 3000')});

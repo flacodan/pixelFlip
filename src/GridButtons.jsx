@@ -2,7 +2,6 @@ export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, on
 
     const handleSave = () => {
         // current grid sent to the db[currentPage] on server.js as an array pushed onto the array of existing arrays. PUT
-        console.log("In GridButtons, grid to save is: " + pixelGrid);
         onSave(pixelGrid);
     }
 
@@ -15,7 +14,6 @@ export default function GridButtons ({ pixelGrid, onSave, onPrevious, onNext, on
     const handleNextPg = () => {
         // trigger 'Save' and then LOAD db[currentPage + 1] if it exists PUT GET or if next does not exist PUT POST
         // Remember to set currentArray appropriately
-        //handleSave();
         onNext(currentPage);
     }
 
